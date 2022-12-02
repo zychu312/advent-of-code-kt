@@ -1,17 +1,47 @@
+import java.io.File
+
+
+interface Caloric {
+    val caloricIntake: Int
+}
+
+data class Item(override val caloricIntake: Int) : Caloric
+
+data class Elf(val id: Int, val items: List<Item>) {
+    val totalCalories = items.sumOf { it.caloricIntake }
+}
+
+tailrec fun parseInputToElves(input: List<String>, acc: List<Elf> = emptyList()): List<Elf> {
+
+    if (input.isEmpty()) {
+        return acc
+    }
+
+    val elf = input
+        .takeWhile(String::isNotBlank)
+        .map(String::toInt)
+        .map { calories -> Item(calories) }
+        .let { items -> Elf(id = acc.size + 1, items) }
+
+    return parseInputToElves(input.drop(elf.items.size + 1), acc + elf)
+
+}
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+    val elves = File("./src/Day01Input.txt")
+        .readLines()
+        .let { input -> parseInputToElves(input) }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    val maxCaloriesInInventory = elves.maxOf { elf -> elf.totalCalories }
 
-    val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    println("Part 1: $maxCaloriesInInventory")
+
+    val sumOfTopThreeMostCaloricInventories = elves
+        .map { it.totalCalories }
+        .sortedDescending()
+        .take(3)
+        .sum()
+
+    println("Part 2: $sumOfTopThreeMostCaloricInventories")
 }
