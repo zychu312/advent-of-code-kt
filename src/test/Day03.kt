@@ -13,7 +13,7 @@ class Day03 {
         'L' to 38
     ).map { (letter, expectedPriority) ->
         DynamicTest.dynamicTest(letter.toString()) {
-            assertEquals( expectedPriority, letter.toPriority(),)
+            assertEquals( expectedPriority, letter.toPriority())
         }
     }
 }
