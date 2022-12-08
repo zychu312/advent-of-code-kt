@@ -8,19 +8,20 @@ enum class Result {
     }
 
     companion object {
-        fun fromCharacter(input: Char): Result? = when (input) {
+        fun fromCharacter(input: Char): Result = when (input) {
             'X' -> Loss
             'Y' -> Draw
             'Z' -> Win
-            else -> null
+            else -> error("Bad character")
         }
     }
 }
 
+
 enum class Option {
     Rock, Paper, Scissor;
 
-    fun challenge(other: Option): Result = when (this) {
+    infix fun challenge(other: Option): Result = when (this) {
         Rock -> when (other) {
             Rock -> Result.Draw
             Paper -> Result.Loss
@@ -48,21 +49,21 @@ enum class Option {
 
 
     companion object {
-        fun fromOpponentCharacter(input: Char): Option? {
+        fun fromOpponentCharacter(input: Char): Option {
             return when (input) {
                 'A' -> Rock
                 'B' -> Paper
                 'C' -> Scissor
-                else -> null
+                else -> error("Bad character")
             }
         }
 
-        fun fromMyCharacter(input: Char): Option? {
+        fun fromMyCharacter(input: Char): Option {
             return when (input) {
                 'X' -> Rock
                 'Y' -> Paper
                 'Z' -> Scissor
-                else -> null
+                else -> error("Bad character")
             }
         }
 
@@ -96,25 +97,15 @@ val firstStrategy = Strategy { (firstLetter, secondLetter) ->
     val opponentOption = Option.fromOpponentCharacter(firstLetter)
     val myOption = Option.fromMyCharacter(secondLetter)
 
-    if (myOption == null || opponentOption == null) {
-        0
-    } else {
-        myOption.pointsForPlayingIt() + myOption.challenge(opponentOption).toPoints()
-    }
+    myOption.pointsForPlayingIt() + myOption.challenge(opponentOption).toPoints()
 }
 
 val secondStrategy = Strategy { (firstLetter, secondLetter) ->
     val opponentOption = Option.fromOpponentCharacter(firstLetter)
     val neededResult = Result.fromCharacter(secondLetter)
-
-    if (opponentOption == null || neededResult == null) {
-        return@Strategy 0
-    }
-
     val myOption = Option.whichToPlayForResult(neededResult, opponentOption)
 
     myOption.pointsForPlayingIt() + myOption.challenge(opponentOption).toPoints()
-
 }
 
 
