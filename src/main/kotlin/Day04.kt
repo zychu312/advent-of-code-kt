@@ -5,7 +5,7 @@ fun main() {
 
     val ranges = loadFile("Day04Input.txt")
         .readLines()
-        .map { line -> line.split(',', '-').map { it.toInt() } }
+        .map { line -> line.split(',', '-').map(String::toInt) }
         .map { (oneStart, oneEnd, twoStart, twoEnd) -> oneStart..oneEnd to twoStart..twoEnd }
 
 
