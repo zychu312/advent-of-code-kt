@@ -1,6 +1,3 @@
-import java.io.File
-
-
 enum class Result {
     Win, Loss, Draw;
 
@@ -121,7 +118,7 @@ val secondStrategy = Strategy { (firstLetter, secondLetter) ->
 }
 
 
-fun runGameUsingStrategy(strategy: Strategy): Int = File("./src/Day02Input.txt")
+fun runGameUsingStrategy(strategy: Strategy): Int = loadFile("Day02Input.txt")
     .readLines()
     .sumOf { line ->
         line

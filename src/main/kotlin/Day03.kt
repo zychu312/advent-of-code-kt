@@ -1,5 +1,3 @@
-import java.io.File
-
 fun Char.toPriority(): Int = when (this.category) {
     CharCategory.UPPERCASE_LETTER -> this.code - 'A'.code + 'z'.toPriority() + 1
     CharCategory.LOWERCASE_LETTER -> this.code - 'a'.code + 1
@@ -9,7 +7,7 @@ fun Char.toPriority(): Int = when (this.category) {
 
 infix fun String.toCompartment(range: IntRange) = this.substring(range).toCharArray().toSet()
 
-fun loadInventories() = File("./src/Day03Input.txt").readLines()
+fun loadInventories() = loadFile("Day03Input.txt").readLines()
 
 fun main() {
 

@@ -1,6 +1,3 @@
-import java.io.File
-
-
 interface Caloric {
     val caloricIntake: Int
 }
@@ -29,9 +26,7 @@ tailrec fun parseInputToElves(input: List<String>, acc: List<Elf> = emptyList())
 
 fun main() {
 
-    val elves = File("./src/Day01Input.txt")
-        .readLines()
-        .let { input -> parseInputToElves(input) }
+    val elves = parseInputToElves(loadFile("Day01Input.txt").readLines())
 
     val maxCaloriesInInventory = elves.maxOf { elf -> elf.totalCalories }
 
